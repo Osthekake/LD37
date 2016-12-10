@@ -116,7 +116,7 @@ Game.mouseMove = function(event) {
         let rom = $(".room").offset();
  		let el = $(id);
 		el.css({
-		    left: event.pageX - rom.left - Game.context.selectedCoordinates[0], //todo: keep it on the mouse where it was picked up
+		    left: event.pageX - rom.left - Game.context.selectedCoordinates[0] + 20, //todo: keep it on the mouse where it was picked up
 		    top: event.pageY - rom.top - Game.context.selectedCoordinates[1]
 		});
 		//console.log(event.pageX + ", " + event.pageY);
@@ -167,7 +167,7 @@ Game.placeFurniture = function(event){
 			console.log(id);
 			console.log(Game.context.currentRoom.furniture);
 			updatedFurniture.cssBounds.top = event.pageY - rom.top - Game.context.selectedCoordinates[1];
-			updatedFurniture.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0];
+			updatedFurniture.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0] + 20;
 	 		Game.renderAll();
 		}
 	}
