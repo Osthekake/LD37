@@ -4,7 +4,7 @@
 }
 
 .furniture {
-	position: relative;
+	position: absolute;
 	background-size: cover;
 }
 

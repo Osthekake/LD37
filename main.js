@@ -8,15 +8,7 @@ Game.rooms = {
 		windows : ["north", "east"],
 		background: "url(img/prisoncell.png)",
 		furniture : {
-			"#Sofa" :{ 
-				name: "Sofa",
-				boundingBox: [50, 50, 100, 200],
-				cssBounds: {
-					top: 50, left: 50, width:140, height:70
-				},
-				background: "url(img/shittysofa.png)",
-				description: "Sofa is comfy"
-			}, 
+
 			"#TV": { 
 				name: "TV",
 				boundingBox: [50, 50, 100, 200],
@@ -25,6 +17,15 @@ Game.rooms = {
 				},
 				background: "url(img/shittytv.png)",
 				description: "TV is noisy"
+			},
+			"#Sofa" :{ 
+				name: "Sofa",
+				boundingBox: [50, 50, 100, 200],
+				cssBounds: {
+					top: 50, left: 50, width:140, height:70
+				},
+				background: "url(img/shittysofa.png)",
+				description: "Sofa is comfy"
 			}
 		},
 		badnesses: {
