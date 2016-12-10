@@ -4,6 +4,7 @@
 
 .furniture {
 	position: relative;
+	background-size: cover;
 }
 
  html, body, .container-table {

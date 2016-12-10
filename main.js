@@ -4,14 +4,16 @@ let Game = {};
 Game.rooms = {
 	"start" : {
 		id: "start",
+		doors : ["west"],
+		windows : ["north", "east"],
 		furniture : {
 			"#Sofa" :{ 
 				name: "Sofa",
 				boundingBox: [50, 50, 100, 200],
 				cssBounds: {
-					top: 50, left: 50, width:50, height:150
+					top: 50, left: 50, width:140, height:70
 				},
-				background: "yellow",
+				background: "url(img/shittysofa.png)",
 				description: "Sofa is comfy"
 			}, 
 			"#TV": { 
@@ -20,11 +22,15 @@ Game.rooms = {
 				cssBounds: {
 					top: 150, left: 250, width:50, height:50
 				},
-				background: "blue",
+				background: "url(img/shittytv.png)",
 				description: "TV is noisy"
 			}
 		},
 		badnesses: {
+			'Room is unbalanced' : function(room){
+				//todo:
+				return 1.0; //number for badness
+			},	
 			'Sofa is not facing door' : function(room){
 				//todo:
 				return 1.0; //number for badness
