@@ -116,10 +116,11 @@ Game.mouseMove = function(event) {
 		let id = Game.context.selectedFurniture;
         let rom = $("#roomTarget").offset();
  		let el = $(id);
+        let rotation = Game.context.selectedRotation;
 		el.css({
-		    left: event.pageX - rom.left - Game.context.selectedCoordinates[0], 
+		    left: event.pageX - rom.left - Game.context.selectedCoordinates[0],
 		    top: event.pageY - rom.top - Game.context.selectedCoordinates[1],
-		    transform: 'rotate('+ Game.context.selectedRotation +'deg);'
+		    "transform": "rotate("+rotation+"deg)",
 		});
 		//console.log(event.pageX + ", " + event.pageY);
 		//Game.renderTo("#room", $("#roomTarget"));
@@ -138,9 +139,8 @@ Game.keypress = function(event){
 			return;
 		}
 		let id = Game.context.selectedFurniture;
-        let el = $(id);
-        //console.log(Game.context.selectedRotation);
-        $(el).css('transform', 'rotate('+ Game.context.selectedRotation +'deg);'); //why the fuck does this not work?
+        console.log(Game.context.selectedRotation);
+//        $(id).css({"transform": "rotate("+ Game.context.selectedRotation +"deg);"}); //why the fuck does this not work?
 	}
 };
 
