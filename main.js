@@ -8,7 +8,6 @@ Game.rooms = {
 		windows : ["north", "east"],
 		background: "url(img/prisoncell.png)",
 		furniture : {
-
 			"#TV": { 
 				name: "TV",
 				boundingBox: [50, 50, 100, 200],
@@ -46,13 +45,14 @@ Game.rooms = {
 				return 1.0; //number for badness
 			},
 			'Sofa is too far away from a wall' : function(room){
+				let sofa = room.furniture["#Sofa"];
 				//todo:
-				return 0.0; //number for badness
+				return sofa.cssBounds.top / 150; //number for badness
 			}
 		},
-		wintest : function(){
+		wintest : function(context){
 			//some test for winning here
-			return Room.isCrappy(Game.context.currentRoom);
+			return context.badness > 4;
 		}
 	}
 };
@@ -61,7 +61,8 @@ Game.rooms = {
 Game.context = {
 	unlockedRooms : ["start"],
 	currentRoom: undefined, // current level
-	badStuff: [],
+	badStuff: [], //the bad things in effect
+	badness: 0, //current level of badness
 	selectedFurniture: undefined, //currently clicked furniture id
     selectedCoordinates: [0, 0]
 };
@@ -169,11 +170,21 @@ Game.placeFurniture = function(event){
 			updatedFurniture.cssBounds.top = event.pageY - rom.top - Game.context.selectedCoordinates[1];
 			updatedFurniture.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0] + 20;
 	 		Game.renderAll();
+	 		Game.testForWin();
 		}
 	}
 	return true;
 };
 
+Game.testForWin = function(){
+	let id = Game.context.currentRoom.id;
+	let winTest = Game.rooms[id].wintest;
+	if(winTest(Game.context)){
+		alert("you won");
+	}else{
+		console.log("no win yet")
+	}
+}
 
 Game.calculateQi = function(room){
 	//todo: base these on calculations
@@ -186,9 +197,11 @@ Game.calculateQi = function(room){
 		totalBadness += testResult;
 		console.log("Test result for " + desc + " was " + testResult);
 		if(testResult){
-			badStuffs.push(desc + " (" + testResult + " negative qi)");
+			badStuffs.push(desc + " (" + testResult.toFixed(1) + " negative qi)");
 		}
 	}
+	console.log("total badness is " + totalBadness);
+	Game.context.badness = totalBadness;
 	Game.context.badStuff = badStuffs;
 };
 
