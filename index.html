@@ -1,0 +1,58 @@
+<meta charset="utf-8">
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <title>Ludum Dare 37</title>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <script type="text/javascript" src="lib/jquery-2.2.3.min.js"></script>
+        <script type="text/javascript" src="lib/handlebars-v4.0.5.js"></script>
+        <script type="text/javascript" src="lib/bootstrap.min.js"></script>
+    </head>
+    <body>
+    	<!-- Handlebars render into these -->
+    	<div id="helpTarget"></div>
+    	<div id="roomTarget"></div>
+    	<div id="selectedTarget"></div>
+    	<div id="infoTarget"></div>
+    	
+	    <!-- Templates go here -->
+	    
+	    <script id="gameHelp" type="text/x-handlebars-template">
+    		<div class="container-fluid">
+			    How to play:
+			    Click to lift furniture. A, and D to rotate. Click again to place furniture.
+		  	</div><!-- /.container-fluid -->
+	    </script>
+
+	    <script id="room" type="text/x-handlebars-template">
+    		<div class="room">
+				Dat dere room
+
+				(rendered here)
+	    	</div>
+	    </script>
+
+	    <script id="currentlySelected" type="text/x-handlebars-template">
+    		<div class="room">
+				<h3>Sofa</h3>
+				Sofa is comfy
+	    	</div>
+	    </script>
+
+	    <script id="info" type="text/x-handlebars-template">
+    		<div class="room">
+				Could not place sofa. Intersects with lamp.
+				The room has a bad mood.
+				The room is unbalanced towards the east.
+				Lamp, tv and table create an unholy triangle.
+	    	</div>
+	    </script>
+
+	    <!-- This has to go at the end! -->
+	    <script type="text/javascript" src="templates.js"></script>
+	    <script type="text/javascript" src="room.js"></script>
+	    <script type="text/javascript" src="furniture.js"></script>
+        <script type="text/javascript" src="main.js"></script>
+    </body>
+</html>
