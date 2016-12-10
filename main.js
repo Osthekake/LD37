@@ -174,9 +174,27 @@ Game.placeFurniture = function(event){
 		let id = Game.context.selectedFurniture;
 		console.log("placed " + id);
  		let el = $(id);
- 		//todo: update data for templates
+
  		//check if furniture can be placed here
- 		let intersectsWith = []; //todo: calculate
+ 		let updatedFurniture = Game.context.currentRoom.furniture[id];
+ 		let rom = $("#roomTarget").offset();
+ 		//todo: Figure all this out.
+ 		/*let updatedBoundingBox = [
+ 			event.pageX - rom.left - Game.context.selectedCoordinates[0], //x
+ 			event.pageX - rom.left - Game.context.selectedCoordinates[0] + updatedFurniture.boundingBox.width, //dx
+ 			event.pageY - rom.top - Game.context.selectedCoordinates[1], //y
+ 			event.pageY - rom.top - Game.context.selectedCoordinates[1] +  updatedFurniture.boundingBox.height //dy
+ 		];*/
+ 		let intersectsWith = []; 
+ 		let furnitures = Game.context.currentRoom.furniture;
+		/*
+ 		for(var furnId in furnitures){
+ 			let f = furnitures[furnId];
+ 			if(Furniture.intersects(updatedBoundingBox, f.boundingBox)){
+ 				intersectsWith.push(furnId);
+ 			}
+ 		}
+ 		*/
  		let insideRoom = true //todo: calculate
 		if(intersectsWith.length == 0 && insideRoom){
 			Game.context.selectedFurniture = undefined;
@@ -186,13 +204,13 @@ Game.placeFurniture = function(event){
 			$("#roomTarget").unbind("mousemove");
 
 			//update context
-			let updatedFurniture = Game.context.currentRoom.furniture[id];
-            let rom = $("#roomTarget").offset();
-			console.log(id);
+			
+			//console.log(id);
 			//console.log(Game.context.currentRoom.furniture);
 			updatedFurniture.cssBounds.top = event.pageY - rom.top - Game.context.selectedCoordinates[1];
 			updatedFurniture.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0];
 			updatedFurniture.cssBounds.rotate = Game.context.selectedRotation;
+			//updatedFurniture.boundingBox = updatedBoundingBox;
 	 		Game.renderAll();
 	 		Game.testForWin();
 		}else{
