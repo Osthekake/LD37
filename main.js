@@ -45,20 +45,57 @@ Game.renderAll = function(){
 
 Game.start = function(roomName){
 	//setup
+
 	Game.renderAll();
 	
 };
 
-Game.pickUpFurniture = function(furniture_key){
-	
+Game.mouseMove = function(event) {
+	if(Game.context.selectedFurniture){
+		let id = Game.context.selectedFurniture;
+ 		let el = $(id);
+		el.css({
+		    left: event.pageX + 20, //todo: keep it on the mouse where it was picked up
+		    top: event.pageY + 20
+		});
+		//console.log(event.pageX + ", " + event.pageY);
+		//Game.renderTo("#room", $("#roomTarget"));
+	}
+}
 
-	Game.renderAll();
+Game.pickUpFurniture = function(furniture){
+	if(!Game.context.selectedFurniture){
+		console.log("picked up " + furniture.id);
+		Game.context.selectedFurniture = "#" + furniture.id;
+		//Game.renderAll();
+
+		//enable clicking on room
+		console.log("enabling clicking on room.");
+		$("#roomTarget").bind("click", Game.placeFurniture)
+		$("#roomTarget").bind("mousemove", Game.mouseMove);
+	}
+	return false;
 };
 
-Game.placeFurniture = function(furniture_key){
-	
-
-	Game.renderAll();
+Game.placeFurniture = function(){
+	if(Game.context.selectedFurniture){
+		console.log("placeFurniture")
+		event.stopPropagation();
+		let id = Game.context.selectedFurniture;
+		console.log("placed " + id);
+ 		let el = $(id);
+ 		//todo: update data for templates
+ 		//check if furniture can be placed here
+		if(true){
+			Game.context.selectedFurniture = undefined;
+			//disable clicking on room
+			console.log("disabling clicking on room.");
+			$("#roomTarget").unbind("click");
+			$("#roomTarget").unbind("mousemove");
+	 		Game.renderAll();
+		}
+	}
+	return true;
 };
 
 

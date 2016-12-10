@@ -26,16 +26,27 @@
 	    </script>
 
 	    <script id="room" type="text/x-handlebars-template">
-    		<div class="room">
-				Dat dere room
-
-				(rendered here)
+    		<div 
+    			class="room" 
+    			style="width:500; height:500; background:black;">
+				<div
+					id="square" 
+					style="width:50; height:50; position:relative; left:200; top:200; background:red;" 
+					onclick="return Game.pickUpFurniture(this);"
+					>
+				</div>
+				<div
+					id="rectangle" 
+					style="width:150; height:50; position:relative; left:500; top:200; background:green;" 
+					onclick="return Game.pickUpFurniture(this);"
+					>
+				</div>
 	    	</div>
 	    </script>
 
 	    <script id="currentlySelected" type="text/x-handlebars-template">
     		<div class="room">
-				<h3>Sofa</h3>
+				<h3>{{selectedFurniture.id}}</h3>
 				Sofa is comfy
 	    	</div>
 	    </script>
