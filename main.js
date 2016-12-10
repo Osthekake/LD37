@@ -54,7 +54,8 @@ Game.context = {
 	unlockedRooms : ["start"],
 	currentRoom: undefined, // current level
 	badStuff: [],
-	selectedFurniture: undefined //currently clicked furniture id
+	selectedFurniture: undefined, //currently clicked furniture id
+    selectedCoordinates: [0, 0]
 };
 
 Game.renderTo = function(template_id, output){
@@ -116,8 +117,11 @@ Game.mouseMove = function(event) {
 
 Game.pickUpFurniture = function(furniture, event){
 	if(!Game.context.selectedFurniture){
-		console.log("picked up " + furniture.id);
+        let elp = $("#" + furniture.id).offset();
+		console.log("picked up " + furniture.id + " clicked on: " + (event.pageX - elp.left) + 
+            "x" + (event.pageY - elp.top));
 		Game.context.selectedFurniture = "#" + furniture.id;
+        Game.context.selectedCoordinates = [event.pageX - elp.left, event.pageY - elp.top];
 		//Game.renderAll();
 		//show info about the slected thing
 		Game.renderSelectedInfo();
