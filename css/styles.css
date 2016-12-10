@@ -1,5 +1,6 @@
 .room {
 	border: 5px solid white;
+	background-size: cover;
 }
 
 .furniture {
@@ -9,6 +10,10 @@
 
  html, body, .container-table {
     height: 100%;
+}
+
+body {
+	background-image: url(../img/stars.png);
 }
 .container-table {
     display: table;

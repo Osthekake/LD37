@@ -6,6 +6,7 @@ Game.rooms = {
 		id: "start",
 		doors : ["west"],
 		windows : ["north", "east"],
+		background: "url(img/prisoncell.png)",
 		furniture : {
 			"#Sofa" :{ 
 				name: "Sofa",
