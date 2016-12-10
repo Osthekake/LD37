@@ -114,10 +114,10 @@ Game.start = function(roomName){
 Game.mouseMove = function(event) {
 	if(Game.context.selectedFurniture){
 		let id = Game.context.selectedFurniture;
-        let rom = $(".room").offset();
+        let rom = $("#roomTarget").offset();
  		let el = $(id);
 		el.css({
-		    left: event.pageX - rom.left - Game.context.selectedCoordinates[0] + 20, //todo: keep it on the mouse where it was picked up
+		    left: event.pageX - rom.left - Game.context.selectedCoordinates[0], //todo: keep it on the mouse where it was picked up
 		    top: event.pageY - rom.top - Game.context.selectedCoordinates[1]
 		});
 		//console.log(event.pageX + ", " + event.pageY);
@@ -164,11 +164,11 @@ Game.placeFurniture = function(event){
 
 			//update context
 			let updatedFurniture = Game.context.currentRoom.furniture[id];
-            let rom = $(".room").offset();
+            let rom = $("#roomTarget").offset();
 			console.log(id);
 			console.log(Game.context.currentRoom.furniture);
 			updatedFurniture.cssBounds.top = event.pageY - rom.top - Game.context.selectedCoordinates[1];
-			updatedFurniture.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0] + 20;
+			updatedFurniture.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0];
 	 		Game.renderAll();
 	 		Game.testForWin();
 		}
