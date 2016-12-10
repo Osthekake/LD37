@@ -15,10 +15,30 @@ Game.rooms = {
 	}
 };
 
+//These items should be loaded into context from other places when we start. There should be no hardcoding in contex. for dev only. :)
 Game.context = {
 	unlockedRooms : ["start"],
-	currentRoom: undefined,
-	currentFurniture: {},
+	currentRoom: {
+		furniture : {
+			"#sofa" :{ 
+				name: "sofa",
+				boundingBox: [50, 50, 100, 200],
+				cssBounds: {
+					top: 50, left: 50, width:50, height:150
+				},
+				background: "yellow"
+			}, 
+			"#tv": { 
+				name: "tv",
+				boundingBox: [50, 50, 100, 200],
+				cssBounds: {
+					top: 150, left: 250, width:50, height:50
+				},
+				background: "blue"
+			}
+		}
+	},
+	selectedFurniture: undefined //currently clicked furniture id
 };
 
 Game.renderTo = function(template_id, output){
@@ -45,7 +65,7 @@ Game.renderAll = function(){
 
 Game.start = function(roomName){
 	//setup
-
+	//todo: load appropriate things into context from the given room.
 	Game.renderAll();
 	
 };
@@ -93,6 +113,11 @@ Game.placeFurniture = function(event){
 			console.log("disabling clicking on room.");
 			$("#roomTarget").unbind("click");
 			$("#roomTarget").unbind("mousemove");
+
+			//update context
+			let updatedFurniture = Game.context.currentRoom.furniture[id];
+			updatedFurniture.cssBounds.top = event.pageY;
+			updatedFurniture.cssBounds.left = event.pageX;
 	 		Game.renderAll();
 		}
 	}

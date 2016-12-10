@@ -29,18 +29,15 @@
     		<div 
     			class="room" 
     			style="width:500; height:500; background:black;">
-				<div
-					id="square" 
-					style="width:50; height:50; position:relative; left:200; top:200; background:red;" 
-					onclick="return Game.pickUpFurniture(this, event);"
-					>
-				</div>
-				<div
-					id="rectangle" 
-					style="width:150; height:50; position:relative; left:500; top:200; background:green;" 
-					onclick="return Game.pickUpFurniture(this, event);"
-					>
-				</div>
+    			{{#each currentRoom.furniture}}
+    				<div
+	    				class="furniture"
+						id={{name}} 
+						style="width:{{cssBounds.width}}; height:{{cssBounds.height}}; left:{{cssBounds.left}}; top:{{cssBounds.top}}; background:{{background}};" 
+						onclick="return Game.pickUpFurniture(this, event);"
+						>
+					</div>
+    			{{/each}}
 	    	</div>
 	    </script>
 
