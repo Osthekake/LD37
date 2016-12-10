@@ -20,24 +20,27 @@ Game.context = {
 	unlockedRooms : ["start"],
 	currentRoom: {
 		furniture : {
-			"#sofa" :{ 
-				name: "sofa",
+			"#Sofa" :{ 
+				name: "Sofa",
 				boundingBox: [50, 50, 100, 200],
 				cssBounds: {
 					top: 50, left: 50, width:50, height:150
 				},
-				background: "yellow"
+				background: "yellow",
+				description: "Sofa is comfy"
 			}, 
-			"#tv": { 
-				name: "tv",
+			"#TV": { 
+				name: "TV",
 				boundingBox: [50, 50, 100, 200],
 				cssBounds: {
 					top: 150, left: 250, width:50, height:50
 				},
-				background: "blue"
+				background: "blue",
+				description: "TV is noisy"
 			}
 		}
 	},
+	badStuff: [],
 	selectedFurniture: undefined //currently clicked furniture id
 };
 
@@ -56,10 +59,21 @@ Game.renderTo = function(template_id, output){
 	return rendered;
 };
 
+Game.renderSelectedInfo = function(){
+	if(Game.context.selectedFurniture){
+		Game.context.selected = Game.context.currentRoom.furniture[Game.context.selectedFurniture];
+		console.log("rendering info about " + Game.context.selectedFurniture);	
+	}else{
+		Game.context.selected = undefined;
+	}
+	Game.renderTo("#currentlySelected", $("#selectedTarget"));
+}
+
 Game.renderAll = function(){
+	Game.calculateQi();
 	Game.renderTo("#gameHelp", $("#helpTarget"));
 	Game.renderTo("#room", $("#roomTarget"));
-	Game.renderTo("#currentlySelected", $("#selectedTarget"));
+	Game.renderSelectedInfo();
 	Game.renderTo("#info", $("#infoTarget"));
 };
 
@@ -75,8 +89,8 @@ Game.mouseMove = function(event) {
 		let id = Game.context.selectedFurniture;
  		let el = $(id);
 		el.css({
-		    left: event.pageX + 20, //todo: keep it on the mouse where it was picked up
-		    top: event.pageY + 20
+		    left: event.pageX, //todo: keep it on the mouse where it was picked up
+		    top: event.pageY
 		});
 		//console.log(event.pageX + ", " + event.pageY);
 		//Game.renderTo("#room", $("#roomTarget"));
@@ -88,6 +102,8 @@ Game.pickUpFurniture = function(furniture, event){
 		console.log("picked up " + furniture.id);
 		Game.context.selectedFurniture = "#" + furniture.id;
 		//Game.renderAll();
+		//show info about the slected thing
+		Game.renderSelectedInfo();
 
 		//enable clicking on room
 		console.log("enabling clicking on room.");
@@ -116,6 +132,8 @@ Game.placeFurniture = function(event){
 
 			//update context
 			let updatedFurniture = Game.context.currentRoom.furniture[id];
+			console.log(id);
+			console.log(Game.context.currentRoom.furniture);
 			updatedFurniture.cssBounds.top = event.pageY;
 			updatedFurniture.cssBounds.left = event.pageX;
 	 		Game.renderAll();
@@ -126,7 +144,13 @@ Game.placeFurniture = function(event){
 
 
 Game.calculateQi = function(room){
-	
+	//todo: base these on calculations
+	Game.context.badStuff = [
+	  	"Could not place sofa. Intersects with lamp.",
+		"The room has a bad mood.",
+		"The room is unbalanced towards the east.",
+		"Lamp, tv and table create an unholy triangle."
+	];
 };
 
 Game.win = function(){
@@ -134,4 +158,4 @@ Game.win = function(){
 	
 };
 
-Game.start();
+Game.start("start");

@@ -11,24 +11,42 @@
     </head>
     <body>
     	<!-- Handlebars render into these -->
-    	<div id="helpTarget"></div>
-    	<div id="roomTarget"></div>
-    	<div id="selectedTarget"></div>
-    	<div id="infoTarget"></div>
-    	
+
+    	<div id="helpmessage">
+		    <div style="padding: 5px;">
+		        <div class="alert alert-success">
+		           	<div id="helpTarget"></div>
+		        </div>
+		    </div>
+		</div>
+		<div class="container">
+			<div class="row middle">
+				<div class="col-md-4 alert alert-info">
+			        <div id="selectedTarget"></div>
+			    </div>
+			    <div class="col-md-8">
+		        	<div id="roomTarget"></div>
+		        </div>
+			    
+			</div>
+			<div class="row">
+				<div class="col-md-12 alert alert-warning">
+			     	<div id="infoTarget"></div>
+			    </div> 
+		    </div>
+		</div>
+
 	    <!-- Templates go here -->
-	    
 	    <script id="gameHelp" type="text/x-handlebars-template">
     		<div class="container-fluid">
-			    How to play:
-			    Click to lift furniture. A, and D to rotate. Click again to place furniture.
+			    <strong>Mission:</strong> Rearrange prison cell to cause negative energies to destroy the wall.
 		  	</div><!-- /.container-fluid -->
 	    </script>
 
 	    <script id="room" type="text/x-handlebars-template">
     		<div 
     			class="room" 
-    			style="width:500; height:500; background:black;">
+    			style="width:500; height:500;">
     			{{#each currentRoom.furniture}}
     				<div
 	    				class="furniture"
@@ -42,19 +60,25 @@
 	    </script>
 
 	    <script id="currentlySelected" type="text/x-handlebars-template">
-    		<div class="room">
-				<h3>{{selectedFurniture.id}}</h3>
-				Sofa is comfy
-	    	</div>
+    		{{#if selected}}
+				<h3>{{selected.name}}</h3>
+				{{selected.description}}
+				<div style="width:{{cssBounds.width}}; height:{{cssBounds.height}}; left:{{cssBounds.left}}; top:{{cssBounds.top}}; background:{{background}};">
+				</div>
+				Click in the room to place {{selected.name}} there. Use A and D to rotate.
+	    	{{else}}
+	    		<h3>Nothing selected</h3>
+	    		Click on a piece of furniture to pick it up.
+    		{{/if}}
 	    </script>
 
 	    <script id="info" type="text/x-handlebars-template">
-    		<div class="room">
-				Could not place sofa. Intersects with lamp.
-				The room has a bad mood.
-				The room is unbalanced towards the east.
-				Lamp, tv and table create an unholy triangle.
-	    	</div>
+	    	<h3>Bad stuff</h3>
+    		<ul>
+    		{{#each badStuff}}
+    			<li>{{this}}</li>
+			{{/each}}
+	    	</ul>
 	    </script>
 
 	    <!-- This has to go at the end! -->

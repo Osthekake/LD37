@@ -1,7 +1,23 @@
-#room {
-	border: solid;
+.room {
+	border: 5px solid white;
 }
 
 .furniture {
 	position: relative;
+}
+
+ html, body, .container-table {
+    height: 100%;
+}
+.container-table {
+    display: table;
+}
+.vertical-center-row {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.middle {
+	 vertical-align: middle;
+	 display:flex;
 }
