@@ -51,7 +51,7 @@
     				<div
 	    				class="furniture"
 						id={{name}} 
-						style="width:{{cssBounds.width}}; height:{{cssBounds.height}}; left:{{cssBounds.left}}; top:{{cssBounds.top}}; background-image:{{background}};" 
+						style="width:{{cssBounds.width}}; height:{{cssBounds.height}}; left:{{cssBounds.left}}; top:{{cssBounds.top}}; background-image:{{background}}; transform: rotate(0deg);" 
 						onclick="return Game.pickUpFurniture(this, event);"
 						>
 					</div>
@@ -69,6 +69,12 @@
 					Click somewhere in the room to place {{selected.name}}. <br/>
 					Use <strong>A</strong> and <strong>D</strong> to rotate.
 				</p>
+				{{#if intersectsWith}}
+					Cannot place {{selected.name}} there.
+					{{#each intersectsWith}} 
+						{{this}} is in the way.
+					{{/each}}
+				{{/if}}
 	    	{{else}}
 	    		<h3>Nothing selected</h3>
 	    		Click on a piece of furniture to pick it up.

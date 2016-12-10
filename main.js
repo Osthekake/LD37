@@ -118,12 +118,30 @@ Game.mouseMove = function(event) {
  		let el = $(id);
 		el.css({
 		    left: event.pageX - rom.left - Game.context.selectedCoordinates[0], //todo: keep it on the mouse where it was picked up
-		    top: event.pageY - rom.top - Game.context.selectedCoordinates[1]
+		    top: event.pageY - rom.top - Game.context.selectedCoordinates[1],
+		    transform: 'rotate('+ Game.context.selectedRotation +'deg);'
 		});
 		//console.log(event.pageX + ", " + event.pageY);
 		//Game.renderTo("#room", $("#roomTarget"));
 	}
-}
+};
+
+Game.keypress = function(event){
+	if(Game.context.selectedFurniture){
+		if(event.which == 65){
+			console.log("rotating clockwise");
+			Game.context.selectedRotation = Game.context.selectedRotation + 90;
+		}else if(event.which == 68){
+			console.log("rotating counter clockwise");
+			Game.context.selectedRotation = Game.context.selectedRotation - 90;
+		}
+		let id = Game.context.selectedFurniture;
+        let el = $(id);
+		el.css({
+		    transform: 'rotate('+ Game.context.selectedRotation +'deg);'
+		});	
+	}
+};
 
 Game.pickUpFurniture = function(furniture, event){
 	if(!Game.context.selectedFurniture){
@@ -132,6 +150,8 @@ Game.pickUpFurniture = function(furniture, event){
             "x" + (event.pageY - elp.top));
 		Game.context.selectedFurniture = "#" + furniture.id;
         Game.context.selectedCoordinates = [event.pageX - elp.left, event.pageY - elp.top];
+
+        Game.context.selectedRotation = 0; //todo: whatever the rotation of the thing we picked up is
 		//Game.renderAll();
 		//show info about the slected thing
 		Game.renderSelectedInfo();
@@ -155,7 +175,9 @@ Game.placeFurniture = function(event){
  		let el = $(id);
  		//todo: update data for templates
  		//check if furniture can be placed here
-		if(true){
+ 		let intersectsWith = []; //todo: calculate
+ 		let insideRoom = true //todo: calculate
+		if(intersectsWith.length == 0 && insideRoom){
 			Game.context.selectedFurniture = undefined;
 			//disable clicking on room
 			console.log("disabling clicking on room.");
@@ -171,6 +193,9 @@ Game.placeFurniture = function(event){
 			updatedFurniture.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0];
 	 		Game.renderAll();
 	 		Game.testForWin();
+		}else{
+			Game.context.intersectsWith = intersectsWith;
+			Game.renderSelectedInfo();
 		}
 	}
 	return true;
@@ -209,5 +234,7 @@ Game.win = function(){
 	console.log("won");
 	
 };
+
+$(document).keydown(Game.keypress);
 
 Game.start("start");
