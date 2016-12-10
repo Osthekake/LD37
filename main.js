@@ -1,24 +1,9 @@
 let Game = {};
 
+//level definitions
 Game.rooms = {
 	"start" : {
-		furniture : [
-			{ 
-				name: "sofa",
-				boundingBox: [50, 50, 100, 200],
-			}
-		],
-		wintest : function(){
-			//some test for winning here
-			return Room.isCrappy(Game.context.currentRoom);
-		}
-	}
-};
-
-//These items should be loaded into context from other places when we start. There should be no hardcoding in contex. for dev only. :)
-Game.context = {
-	unlockedRooms : ["start"],
-	currentRoom: {
+		id: "start",
 		furniture : {
 			"#Sofa" :{ 
 				name: "Sofa",
@@ -38,8 +23,36 @@ Game.context = {
 				background: "blue",
 				description: "TV is noisy"
 			}
+		},
+		badnesses: {
+			'Sofa is not facing door' : function(room){
+				//todo:
+				return 1.0; //number for badness
+			},	
+			'Sofa is pink' : function(room){
+				//todo:
+				return 0.0; //number for badness
+			},
+			'Sofa is too close to a wall' : function(room){
+				//todo:
+				return 1.0; //number for badness
+			},
+			'Sofa is too far away from a wall' : function(room){
+				//todo:
+				return 0.0; //number for badness
+			}
+		},
+		wintest : function(){
+			//some test for winning here
+			return Room.isCrappy(Game.context.currentRoom);
 		}
-	},
+	}
+};
+
+//These items should be loaded into context from other places when we start. There should be no hardcoding in contex. for dev only. :)
+Game.context = {
+	unlockedRooms : ["start"],
+	currentRoom: undefined, // current level
 	badStuff: [],
 	selectedFurniture: undefined //currently clicked furniture id
 };
@@ -70,7 +83,7 @@ Game.renderSelectedInfo = function(){
 }
 
 Game.renderAll = function(){
-	Game.calculateQi();
+	Game.calculateQi(Game.context.currentRoom);
 	Game.renderTo("#gameHelp", $("#helpTarget"));
 	Game.renderTo("#room", $("#roomTarget"));
 	Game.renderSelectedInfo();
@@ -80,6 +93,10 @@ Game.renderAll = function(){
 Game.start = function(roomName){
 	//setup
 	//todo: load appropriate things into context from the given room.
+	let theLevel = Game.rooms[roomName];
+	console.log("loading level");
+	console.log(theLevel);
+	Game.context.currentRoom = JSON.parse(JSON.stringify(theLevel)); //only way I know to reliably make a copy
 	Game.renderAll();
 	
 };
@@ -145,12 +162,19 @@ Game.placeFurniture = function(event){
 
 Game.calculateQi = function(room){
 	//todo: base these on calculations
-	Game.context.badStuff = [
-	  	"Could not place sofa. Intersects with lamp.",
-		"The room has a bad mood.",
-		"The room is unbalanced towards the east.",
-		"Lamp, tv and table create an unholy triangle."
-	];
+	var totalBadness = 0;
+	var badStuffs = [];
+	let badnesses = Game.rooms[room.id].badnesses;
+	for (var desc in badnesses){
+		let test = badnesses[desc];
+		let testResult = test(room);
+		totalBadness += testResult;
+		console.log("Test result for " + desc + " was " + testResult);
+		if(testResult){
+			badStuffs.push(desc + " (" + testResult + " negative qi)");
+		}
+	}
+	Game.context.badStuff = badStuffs;
 };
 
 Game.win = function(){
