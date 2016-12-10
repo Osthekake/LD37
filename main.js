@@ -63,7 +63,7 @@ Game.mouseMove = function(event) {
 	}
 }
 
-Game.pickUpFurniture = function(furniture){
+Game.pickUpFurniture = function(furniture, event){
 	if(!Game.context.selectedFurniture){
 		console.log("picked up " + furniture.id);
 		Game.context.selectedFurniture = "#" + furniture.id;
@@ -74,10 +74,11 @@ Game.pickUpFurniture = function(furniture){
 		$("#roomTarget").bind("click", Game.placeFurniture)
 		$("#roomTarget").bind("mousemove", Game.mouseMove);
 	}
+	event.stopPropagation();
 	return false;
 };
 
-Game.placeFurniture = function(){
+Game.placeFurniture = function(event){
 	if(Game.context.selectedFurniture){
 		console.log("placeFurniture")
 		event.stopPropagation();
