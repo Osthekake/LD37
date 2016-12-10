@@ -140,9 +140,7 @@ Game.keypress = function(event){
 		let id = Game.context.selectedFurniture;
         let el = $(id);
         //console.log(Game.context.selectedRotation);
-        $(el).css({
-		  transform : 'rotate('+ Game.context.selectedRotation +'deg);'
-		}); //why the fuck does this not work?
+        $(el).css('transform', 'rotate('+ Game.context.selectedRotation +'deg);'); //why the fuck does this not work?
 	}
 };
 
