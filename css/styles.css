@@ -10,7 +10,7 @@
 	transition: transform 1s;
 }
 
- html, body, .container-table {
+html, body, .container-table {
     height: 100%;
 }
 
