@@ -12,7 +12,7 @@ Game.rooms = {
 				name: "TV",
 				boundingBox: [50, 50, 100, 200],
 				cssBounds: {
-					top: 150, left: 250, width:50, height:50
+					top: 150, left: 250, width:50, height:50, rotate:0
 				},
 				background: "url(img/shittytv.png)",
 				description: "TV is noisy"
@@ -21,7 +21,7 @@ Game.rooms = {
 				name: "Sofa",
 				boundingBox: [50, 50, 100, 200],
 				cssBounds: {
-					top: 50, left: 50, width:140, height:70
+					top: 50, left: 50, width:140, height:70, rotate:0
 				},
 				background: "url(img/shittysofa.png)",
 				description: "Sofa is comfy"
@@ -47,7 +47,7 @@ Game.rooms = {
 			'Sofa is too far away from a wall' : function(room){
 				let sofa = room.furniture["#Sofa"];
 				//todo:
-				return sofa.cssBounds.top / 150; //number for badness
+				return sofa.cssBounds.top / 180; //number for badness
 			}
 		},
 		wintest : function(context){
@@ -64,7 +64,8 @@ Game.context = {
 	badStuff: [], //the bad things in effect
 	badness: 0, //current level of badness
 	selectedFurniture: undefined, //currently clicked furniture id
-    selectedCoordinates: [0, 0]
+    selectedCoordinates: [0, 0],
+    selectedRotation: 0
 };
 
 Game.renderTo = function(template_id, output){
@@ -102,7 +103,6 @@ Game.renderAll = function(){
 
 Game.start = function(roomName){
 	//setup
-	//todo: load appropriate things into context from the given room.
 	let theLevel = Game.rooms[roomName];
 	console.log("loading level");
 	console.log(theLevel);
@@ -117,7 +117,7 @@ Game.mouseMove = function(event) {
         let rom = $("#roomTarget").offset();
  		let el = $(id);
 		el.css({
-		    left: event.pageX - rom.left - Game.context.selectedCoordinates[0], //todo: keep it on the mouse where it was picked up
+		    left: event.pageX - rom.left - Game.context.selectedCoordinates[0], 
 		    top: event.pageY - rom.top - Game.context.selectedCoordinates[1],
 		    transform: 'rotate('+ Game.context.selectedRotation +'deg);'
 		});
@@ -128,18 +128,21 @@ Game.mouseMove = function(event) {
 
 Game.keypress = function(event){
 	if(Game.context.selectedFurniture){
-		if(event.which == 65){
+		if(event.which == 68){
 			console.log("rotating clockwise");
 			Game.context.selectedRotation = Game.context.selectedRotation + 90;
-		}else if(event.which == 68){
+		}else if(event.which == 65){
 			console.log("rotating counter clockwise");
 			Game.context.selectedRotation = Game.context.selectedRotation - 90;
+		}else {
+			return;
 		}
 		let id = Game.context.selectedFurniture;
         let el = $(id);
-		el.css({
-		    transform: 'rotate('+ Game.context.selectedRotation +'deg);'
-		});	
+        //console.log(Game.context.selectedRotation);
+        $(el).css({
+		  transform : 'rotate('+ Game.context.selectedRotation +'deg);'
+		}); //why the fuck does this not work?
 	}
 };
 
@@ -151,7 +154,7 @@ Game.pickUpFurniture = function(furniture, event){
 		Game.context.selectedFurniture = "#" + furniture.id;
         Game.context.selectedCoordinates = [event.pageX - elp.left, event.pageY - elp.top];
 
-        Game.context.selectedRotation = 0; //todo: whatever the rotation of the thing we picked up is
+        Game.context.selectedRotation =  Game.context.currentRoom.furniture["#"+furniture.id].cssBounds.rotate;
 		//Game.renderAll();
 		//show info about the slected thing
 		Game.renderSelectedInfo();
@@ -188,9 +191,10 @@ Game.placeFurniture = function(event){
 			let updatedFurniture = Game.context.currentRoom.furniture[id];
             let rom = $("#roomTarget").offset();
 			console.log(id);
-			console.log(Game.context.currentRoom.furniture);
+			//console.log(Game.context.currentRoom.furniture);
 			updatedFurniture.cssBounds.top = event.pageY - rom.top - Game.context.selectedCoordinates[1];
 			updatedFurniture.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0];
+			updatedFurniture.cssBounds.rotate = Game.context.selectedRotation;
 	 		Game.renderAll();
 	 		Game.testForWin();
 		}else{
@@ -205,7 +209,7 @@ Game.testForWin = function(){
 	let id = Game.context.currentRoom.id;
 	let winTest = Game.rooms[id].wintest;
 	if(winTest(Game.context)){
-		alert("you won");
+		Game.win();
 	}else{
 		console.log("no win yet")
 	}
@@ -220,7 +224,7 @@ Game.calculateQi = function(room){
 		let test = badnesses[desc];
 		let testResult = test(room);
 		totalBadness += testResult;
-		console.log("Test result for " + desc + " was " + testResult);
+		//console.log("Test result for " + desc + " was " + testResult);
 		if(testResult){
 			badStuffs.push(desc + " (" + testResult.toFixed(1) + " negative qi)");
 		}
@@ -232,7 +236,7 @@ Game.calculateQi = function(room){
 
 Game.win = function(){
 	console.log("won");
-	
+	alert("you won");
 };
 
 $(document).keydown(Game.keypress);

@@ -6,6 +6,8 @@
 .furniture {
 	position: absolute;
 	background-size: cover;
+	-webkit-transition: transform 1s;
+	transition: transform 1s;
 }
 
  html, body, .container-table {

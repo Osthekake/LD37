@@ -5,7 +5,7 @@
         <title>Ludum Dare 37</title>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
-        <script type="text/javascript" src="lib/jquery-2.2.3.min.js"></script>
+        <script type="text/javascript" src="lib/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="lib/handlebars-v4.0.5.js"></script>
         <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     </head>
@@ -51,7 +51,7 @@
     				<div
 	    				class="furniture"
 						id={{name}} 
-						style="width:{{cssBounds.width}}; height:{{cssBounds.height}}; left:{{cssBounds.left}}; top:{{cssBounds.top}}; background-image:{{background}}; transform: rotate(0deg);" 
+						style="width:{{cssBounds.width}}; height:{{cssBounds.height}}; left:{{cssBounds.left}}; top:{{cssBounds.top}}; background-image:{{background}}; transform: rotate({{cssBounds.rotate}}deg);" 
 						onclick="return Game.pickUpFurniture(this, event);"
 						>
 					</div>
