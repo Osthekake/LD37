@@ -36,10 +36,32 @@
 		    </div>
 		</div>
 
+		<div id="modal" class="modal fade" role="dialog"></div>
+
 	    <!-- Templates go here -->
+ 		<script id="storyModal" type="text/x-handlebars-template">
+	    	<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-Header">
+						<h1>
+							{{story.title}}
+						</h1>
+					</div>
+					<div class="modal-body">
+						{{storyText}}
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">
+							Continue
+						</button>
+					</div>
+				</div>
+			</div>
+	    </script>
+
 	    <script id="gameHelp" type="text/x-handlebars-template">
     		<div class="container-fluid">
-			    <strong>Mission:</strong> Rearrange prison cell to cause negative energies to destroy the wall.
+			    <strong>Mission:</strong> {{story.mission}}
 		  	</div><!-- /.container-fluid -->
 	    </script>
 
@@ -94,6 +116,7 @@
 	    <script type="text/javascript" src="templates.js"></script>
 	    <script type="text/javascript" src="room.js"></script>
 	    <script type="text/javascript" src="furniture.js"></script>
+	    <script type="text/javascript" src="story.js"></script>
         <script type="text/javascript" src="main.js"></script>
     </body>
 </html>

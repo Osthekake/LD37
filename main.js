@@ -1,68 +1,8 @@
 let Game = {};
 
-//level definitions
-Game.rooms = {
-	"start" : {
-		id: "start",
-		doors : ["west"],
-		windows : ["north", "east"],
-		background: "url(img/prisoncell.png)",
-		furniture : {
-			"#TV": { 
-				name: "TV",
-				boundingBox: [50, 50, 100, 200],
-				cssBounds: {
-					top: 150, left: 250, width:50, height:50, rotate:0
-				},
-				background: "url(img/shittytv.png)",
-				description: "TV is noisy"
-			},
-			"#Sofa" :{ 
-				name: "Sofa",
-				boundingBox: [50, 50, 100, 200],
-				cssBounds: {
-					top: 50, left: 50, width:140, height:70, rotate:0
-				},
-				background: "url(img/shittysofa.png)",
-				description: "Sofa is comfy"
-			}
-		},
-		badnesses: {
-			'Room is unbalanced' : function(room){
-				//todo:
-				return 1.0; //number for badness
-			},	
-			'Sofa is not facing door' : function(room){
-				//todo:
-				return 1.0; //number for badness
-			},	
-			'Sofa is pink' : function(room){
-				//todo:
-				return 0.0; //number for badness
-			},
-			'Sofa is too close to a wall' : function(room){
-				//todo:
-				return 1.0; //number for badness
-			},
-			'Sofa is too far away from a wall' : function(room){
-				let sofa = room.furniture["#Sofa"];
-				//todo:
-				return sofa.cssBounds.top / 180; //number for badness
-			}
-		},
-		wintest : function(context){
-			if(context.badness > 3){
-				$(".room").css('animation-name', 'shakingless');
-			}
-			//some test for winning here
-			return context.badness > 4;
-		}
-	}
-};
-
 //These items should be loaded into context from other places when we start. There should be no hardcoding in contex. for dev only. :)
 Game.context = {
-	unlockedRooms : ["start"],
+	chapter: 0, //which chapter we are currently in.
 	currentRoom: undefined, // current level
 	badStuff: [], //the bad things in effect
 	badness: 0, //current level of badness
@@ -106,12 +46,16 @@ Game.renderAll = function(){
 
 Game.start = function(roomName){
 	//setup
-	let theLevel = Game.rooms[roomName];
+	let story = Story[Game.context.chapter];
+	//console.log(story);
+	Game.context.story = story;
+	//console.log(story.room)
+	let theLevel = Room.rooms[story.room];
 	console.log("loading level");
 	console.log(theLevel);
 	Game.context.currentRoom = JSON.parse(JSON.stringify(theLevel)); //only way I know to reliably make a copy
 	Game.renderAll();
-	
+	Game.showIntro();
 };
 
 Game.mouseMove = function(event) {
@@ -241,7 +185,7 @@ Game.placeFurniture = function(event){
 
 Game.testForWin = function(){
 	let id = Game.context.currentRoom.id;
-	let winTest = Game.rooms[id].wintest;
+	let winTest = Room.rooms[id].wintest;
 	if(winTest(Game.context)){
 		Game.win();
 	}else{
@@ -253,7 +197,7 @@ Game.calculateQi = function(room){
 	//todo: base these on calculations
 	var totalBadness = 0;
 	var badStuffs = [];
-	let badnesses = Game.rooms[room.id].badnesses;
+	let badnesses = Room.rooms[room.id].badnesses;
 	for (var desc in badnesses){
 		let test = badnesses[desc];
 		let testResult = test(room);
@@ -268,11 +212,34 @@ Game.calculateQi = function(room){
 	Game.context.badStuff = badStuffs;
 };
 
+Game.showIntro = function(){
+	Game.context.storyText = Game.context.story.before;
+	var $modal = $("#modal");
+	Game.renderTo("#storyModal", $("#modal"));
+	$modal.modal();
+};
+
+Game.showOutro = function(){
+	Game.context.storyText = Game.context.story.after;
+	var $modal = $("#modal");
+	Game.renderTo("#storyModal", $("#modal"));
+	$modal.modal();
+};
+
 Game.win = function(){
 	console.log("won");
-	alert("you won");
+	Game.showOutro();
+	$('#modal').on('hidden.bs.modal', function () {
+		Game.nextChapter();
+	});
 };
+
+Game.nextChapter = function(){
+	$('#modal').off('hidden.bs.modal');
+	Game.context.chapter += 1;
+	Game.start(Game.context.chapter);
+}
 
 $(document).keydown(Game.keypress);
 
-Game.start("start");
+Game.start(0);
