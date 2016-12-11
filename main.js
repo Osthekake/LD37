@@ -123,7 +123,7 @@ Game.mouseMove = function(event) {
 		el.css({
 		    left: event.pageX - rom.left - Game.context.selectedCoordinates[0],
 		    top: event.pageY - rom.top - Game.context.selectedCoordinates[1],
-		    "transform": "rotate("+rotation+"deg)",
+//		    "transform": "rotate("+rotation+"deg)",
 		});
 		//console.log(event.pageX + ", " + event.pageY);
 		//Game.renderTo("#room", $("#roomTarget"));
@@ -153,9 +153,23 @@ Game.pickUpFurniture = function(furniture, event){
 		console.log("picked up " + furniture.id + " clicked on: " + (event.pageX - elp.left) + 
             "x" + (event.pageY - elp.top));
 		Game.context.selectedFurniture = "#" + furniture.id;
-        Game.context.selectedCoordinates = [event.pageX - elp.left, event.pageY - elp.top];
-
         Game.context.selectedRotation =  Game.context.currentRoom.furniture["#"+furniture.id].cssBounds.rotate;
+        if (Game.context.selectedRotation % 180 === 90) {
+            const x = elp.left;
+            const dx = $("#" + furniture.id).width();
+            const y = elp.top;
+            const dy = $("#" + furniture.id).height();
+            const new_x = -dy/2+(x+dx/2);
+            const new_dx = dy;
+            const new_y = -dx/2+(y+dy/2);
+            const new_dy = dx;
+            console.log("oldx: " + x + " newx: " + new_x);
+            console.log("oldy: " + y + " newy: " + new_y);
+            Game.context.selectedCoordinates = [event.pageX - new_x, event.pageY - new_y];
+        } else {
+            Game.context.selectedCoordinates = [event.pageX - elp.left, event.pageY - elp.top];
+        }
+
 		//Game.renderAll();
 		//show info about the slected thing
 		Game.renderSelectedInfo();
@@ -182,12 +196,13 @@ Game.placeFurniture = function(event){
  		let updatedFurniture = Game.context.currentRoom.furniture[id];
  		let rom = $("#roomTarget").offset();
  		//todo: Figure all this out.
- 		/*let updatedBoundingBox = [
+ 		let updatedBoundingBox = [
  			event.pageX - rom.left - Game.context.selectedCoordinates[0], //x
- 			event.pageX - rom.left - Game.context.selectedCoordinates[0] + updatedFurniture.boundingBox.width, //dx
+ 			updatedFurniture.boundingBox.width, //dx
  			event.pageY - rom.top - Game.context.selectedCoordinates[1], //y
- 			event.pageY - rom.top - Game.context.selectedCoordinates[1] +  updatedFurniture.boundingBox.height //dy
- 		];*/
+ 			updatedFurniture.boundingBox.height //dy
+ 		];
+        //if (Game.context.selectedRotation)
  		let intersectsWith = []; 
  		let furnitures = Game.context.currentRoom.furniture;
 		/*
