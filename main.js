@@ -51,6 +51,9 @@ Game.rooms = {
 			}
 		},
 		wintest : function(context){
+			if(context.badness > 3){
+				$(".room").css('animation-name', 'shakingless');
+			}
 			//some test for winning here
 			return context.badness > 4;
 		}
@@ -140,7 +143,7 @@ Game.keypress = function(event){
 		}
 		let id = Game.context.selectedFurniture;
         console.log(Game.context.selectedRotation);
-//        $(id).css({"transform": "rotate("+ Game.context.selectedRotation +"deg);"}); //why the fuck does this not work?
+        $(id).css({"transform": "rotate("+ Game.context.selectedRotation +"deg)"}); //why the fuck does this not work?
 	}
 };
 

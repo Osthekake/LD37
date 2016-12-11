@@ -1,6 +1,8 @@
 .room {
 	border: 5px solid white;
 	background-size: cover;
+	opacity: 1.0;
+    animation-duration: 0.5s;
 }
 
 .furniture {
@@ -28,4 +30,91 @@ body {
 .middle {
 	 vertical-align: middle;
 	 display:flex;
+}
+
+.ui{
+	opacity: 0.7;
+}
+
+@keyframes shaking {
+    0%   {
+    	left: 2px;
+    	transform : rotate(2deg);
+    }
+    10%  {
+    	transform : rotate(-7deg);
+    	left: 5px;
+    }
+    20%  {
+    	transform : rotate(5deg);
+    	left: 5px;
+    }
+    30%  {
+    	transform : rotate(7deg);
+    	left: 5px;
+    }
+    40%  {
+    	transform : rotate(-5deg);
+    	left: 5px;
+    }
+    50%  {
+    	transform : rotate(3deg);
+    	left: -2px;
+    }
+    60%  {
+    	transform : rotate(-3deg);
+    	left: 5px;
+    }
+    70%  {
+    	transform : rotate(-2deg);
+    	left: 5px;
+    }
+    80%  {
+    	transform : rotate(-4deg);
+    	left: 5px;
+    }
+    90%  {
+    	transform : rotate(4deg);
+    	left: 5px;
+    }
+    100% {
+    	transform : rotate(0deg);
+    	left: 10px;
+    }
+}
+
+@keyframes shakingless {
+    0%   {
+    	transform : rotate(1deg);
+    }
+    10%  {
+    	transform : rotate(-3deg);
+    }
+    20%  {
+    	transform : rotate(2deg);
+    }
+    30%  {
+    	transform : rotate(3deg);
+    }
+    40%  {
+    	transform : rotate(-2deg);
+    }
+    50%  {
+    	transform : rotate(1deg);
+    }
+    60%  {
+    	transform : rotate(-1deg);
+    }
+    70%  {
+    	transform : rotate(-1deg);
+    }
+    80%  {
+    	transform : rotate(-2deg);
+    }
+    90%  {
+    	transform : rotate(2deg);
+    }
+    100% {
+    	transform : rotate(0deg);
+    }
 }
