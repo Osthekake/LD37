@@ -94,7 +94,7 @@ Room.rooms = {
 			"#Bed": { 
 				name: "Bed",
 				cssBounds: {
-					top: 150, left: 250, width:200, height:200, rotate:0
+					top: 150, left: 250, width:200, height:200, rotate:90
 				},
 				background: "url(img/bed.png)",
 				description: "The bed looks inviting and comfortable."
@@ -102,17 +102,17 @@ Room.rooms = {
 			"#Wardrobe" :{ 
 				name: "Wardrobe",
 				cssBounds: {
-					top: 50, left: 50, width:140, height:70, rotate:0
+					top: 10, left: 10, width:250, height:250, rotate:0
 				},
-				background: "url(img/shittysofa.png)",
+				background: "url(img/wardrobe.png)",
 				description: "The wardrobe heavy to move around."
 			},
 			"#Bedstand" :{ 
 				name: "Bedstand",
 				cssBounds: {
-					top: 50, left: 50, width:140, height:70, rotate:0
+					top: 50, left: 350, width:100, height:100, rotate:270
 				},
-				background: "url(img/shittysofa.png)",
+				background: "url(img/bedsidetable.png)",
 				description: "A cute little table to have next to the bed."
 			}
 		},

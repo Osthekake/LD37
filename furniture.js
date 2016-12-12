@@ -1,13 +1,15 @@
 let Furniture = {};
 
 Furniture.intersects = function(furniture1, furniture2){
-    const f1_x = furniture1.cssBounds.left;
-    const f1_radius = furniture1.cssBounds.width/2;
-    const f1_y = furniture1.cssBounds.top;
     
-    const f2_x = furniture2.cssBounds.left;
+    const f1_radius = furniture1.cssBounds.width/2;
+    const f1_x = furniture1.cssBounds.left + f1_radius;
+    const f1_y = furniture1.cssBounds.top + f1_radius;
+    
+    
     const f2_radius = furniture2.cssBounds.width/2;
-    const f2_y = furniture2.cssBounds.top;
+    const f2_x = furniture2.cssBounds.left + f2_radius;
+    const f2_y = furniture2.cssBounds.top + f2_radius;
     
     const distance_x = f1_x - f2_x;
     const distance_y = f1_y - f2_y;
@@ -17,7 +19,7 @@ Furniture.intersects = function(furniture1, furniture2){
 
    // console.log("distance was " + pythDistance);
 
-    return pythDistance < addedRadius;
+    return pythDistance < (addedRadius * 0.9);
 };
 
 Furniture.calculateStuff = function(furniture){
