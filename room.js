@@ -6,7 +6,7 @@ Room.rooms = {
 		id: "livingroom",
 		doors : ["west"],
 		windows : ["north", "east"],
-		background: "url(img/prisoncell.png)",
+		background: "url(img/livingroom.png)",
 		furniture : {
 			"#TV": { 
 				name: "TV",
@@ -62,7 +62,7 @@ Room.rooms = {
 		id: "bedroom",
 		doors : ["west"],
 		windows : ["north", "east"],
-		background: "url(img/prisoncell.png)",
+		background: "url(img/bedroom.png)",
 		furniture : {
 			"#TV": { 
 				name: "TV",
@@ -118,7 +118,7 @@ Room.rooms = {
 		id: "cozy",
 		doors : ["west"],
 		windows : ["north", "east"],
-		background: "url(img/prisoncell.png)",
+		background: "url(img/livingroom.png)",
 		furniture : {
 			"#TV": { 
 				name: "TV",
@@ -230,7 +230,7 @@ Room.rooms = {
 		id: "beach",
 		doors : ["west"],
 		windows : ["north", "east"],
-		background: "url(img/prisoncell.png)",
+		background: "url(img/beach.png)",
 		furniture : {
 			"#TV": { 
 				name: "TV",
