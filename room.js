@@ -90,6 +90,7 @@ Room.rooms = {
 		doors : ["west"],
 		windows : ["north", "east"],
 		background: "url(img/bedroom.png)",
+		energyThreshold: 3,
 		furniture : {
 			"#Bed": { 
 				name: "Bed",
@@ -110,7 +111,7 @@ Room.rooms = {
 			"#Bedstand" :{ 
 				name: "Bedstand",
 				cssBounds: {
-					top: 50, left: 350, width:100, height:100, rotate:270
+					top: 50, left: 350, width:100, height:100, rotate:90
 				},
 				background: "url(img/bedsidetable.png)",
 				description: "A cute little table to have next to the bed."
@@ -160,7 +161,7 @@ Room.rooms = {
 		},
 		wintest : function(context){
 			if(context.badness > 3){
-				$(".room").css('animation-name', 'shakingless');
+				$(".room").css('animation-name', 'shaking');
 			}
 			//some test for winning here
 			return context.badness > 4;
@@ -171,6 +172,7 @@ Room.rooms = {
 		doors : ["west"],
 		windows : ["north", "east"],
 		background: "url(img/livingroom.png)",
+		energyThreshold: 2,
 		furniture : {
 			"#TV": { 
 				name: "TV",
@@ -243,6 +245,8 @@ Room.rooms = {
 		},
 		wintest : function(context){
 			if(context.badness > 3){
+				$(".room").css('animation-name', 'shaking');
+			}else if(context.badness > 1){
 				$(".room").css('animation-name', 'shakingless');
 			}
 			//some test for winning here

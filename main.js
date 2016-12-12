@@ -177,10 +177,20 @@ Game.testForWin = function(){
 }
 
 Game.calculateQi = function(room){
+	let energyVector = {x:0, y:0};
+
 	for (var furnitureid in Game.context.currentRoom.furniture){
 //		console.log("calculating stuff for " + furnitureid);
 		let furniture = Game.context.currentRoom.furniture[furnitureid];
 		Furniture.calculateStuff(furniture);
+		if(furniture.facing == "north")
+			energyVector.y -= 1;
+		if(furniture.facing == "south")
+			energyVector.y += 1;
+		if(furniture.facing == "east")
+			energyVector.y += 1;
+		if(furniture.facing == "west")
+			energyVector.y -= 1;
 	}
 
 	var totalBadness = 0;
@@ -198,6 +208,18 @@ Game.calculateQi = function(room){
 	console.log("total badness is " + totalBadness);
 	Game.context.badness = totalBadness;
 	Game.context.badStuff = badStuffs;
+
+	if(totalBadness >= Game.context.currentRoom.energyThreshold){
+		console.log("Badness above energyThreshold");
+		energyVector.x *= (totalBadness * 10);
+		energyVector.x += 250
+		energyVector.y *= (totalBadness * 10);
+		energyVector.y += 250
+		Game.context.energyVector = energyVector;
+	}else{
+		console.log("Badness below energyThreshold");
+		Game.context.energyVector = undefined;
+	}
 };
 
 Game.showIntro = function(){

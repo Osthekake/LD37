@@ -85,6 +85,14 @@
 						>
 					</div>
     			{{/each}}
+    			{{#if energyVector}}
+    				<div
+    					class="furniture"
+	    				id="energyVector" 
+						style="left:{{energyVector.x}}; top:{{energyVector.y}}; width:100; height:100; background-image:url('img/focus.png');" 
+						>
+					</div>
+    			{{/if}}
 	    	</div>
 	    </script>
 
