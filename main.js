@@ -87,7 +87,7 @@ Game.keypress = function(event){
 		}
 		let id = Game.context.selectedFurniture;
         console.log(Game.context.selectedRotation);
-        $(id).css({"transform": "rotate("+ Game.context.selectedRotation +"deg)"}); //why the fuck does this not work?
+        $(id).css({"transform": "rotate("+ Game.context.selectedRotation +"deg)"}); 
 	}
 };
 
@@ -98,22 +98,7 @@ Game.pickUpFurniture = function(furniture, event){
             "x" + (event.pageY - elp.top));
 		Game.context.selectedFurniture = "#" + furniture.id;
         Game.context.selectedRotation =  Game.context.currentRoom.furniture["#"+furniture.id].cssBounds.rotate;
-        if (Game.context.selectedRotation % 180 === 90) {
-            const x = elp.left;
-            const dx = $("#" + furniture.id).width();
-            const y = elp.top;
-            const dy = $("#" + furniture.id).height();
-            const new_x = -dy/2+(x+dx/2);
-            const new_dx = dy;
-            const new_y = -dx/2+(y+dy/2);
-            const new_dy = dx;
-            console.log("oldx: " + x + " newx: " + new_x);
-            console.log("oldy: " + y + " newy: " + new_y);
-            Game.context.selectedCoordinates = [event.pageX - new_x, event.pageY - new_y];
-        } else {
-            Game.context.selectedCoordinates = [event.pageX - elp.left, event.pageY - elp.top];
-        }
-
+        Game.context.selectedCoordinates = [event.pageX - elp.left, event.pageY - elp.top];
 		//Game.renderAll();
 		//show info about the slected thing
 		Game.renderSelectedInfo();
@@ -133,50 +118,48 @@ Game.placeFurniture = function(event){
 		console.log("placeFurniture")
 		event.stopPropagation();
 		let id = Game.context.selectedFurniture;
-		console.log("placed " + id);
+		
  		let el = $(id);
 
  		//check if furniture can be placed here
- 		let updatedFurniture = Game.context.currentRoom.furniture[id];
+ 		let furnitureCopy = JSON.parse(JSON.stringify(Game.context.currentRoom.furniture[id]));
  		let rom = $("#roomTarget").offset();
  		//todo: Figure all this out.
- 		let updatedBoundingBox = [
- 			event.pageX - rom.left - Game.context.selectedCoordinates[0], //x
- 			updatedFurniture.boundingBox.width, //dx
- 			event.pageY - rom.top - Game.context.selectedCoordinates[1], //y
- 			updatedFurniture.boundingBox.height //dy
- 		];
+ 		
         //if (Game.context.selectedRotation)
  		let intersectsWith = []; 
  		let furnitures = Game.context.currentRoom.furniture;
-		/*
+		furnitureCopy.cssBounds.top = event.pageY - rom.top - Game.context.selectedCoordinates[1];
+		furnitureCopy.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0];
+		
  		for(var furnId in furnitures){
  			let f = furnitures[furnId];
- 			if(Furniture.intersects(updatedBoundingBox, f.boundingBox)){
+ 			if(furnId != id && Furniture.intersects(furnitureCopy, f)){
  				intersectsWith.push(furnId);
  			}
  		}
- 		*/
+ 		Game.context.intersectsWith = intersectsWith;
+ 		
  		let insideRoom = true //todo: calculate
 		if(intersectsWith.length == 0 && insideRoom){
+			console.log("placed " + id);
 			Game.context.selectedFurniture = undefined;
+			let updatedFurniture = Game.context.currentRoom.furniture[id];
 			//disable clicking on room
 			console.log("disabling clicking on room.");
 			$("#roomTarget").unbind("click");
 			$("#roomTarget").unbind("mousemove");
 
 			//update context
-			
-			//console.log(id);
-			//console.log(Game.context.currentRoom.furniture);
 			updatedFurniture.cssBounds.top = event.pageY - rom.top - Game.context.selectedCoordinates[1];
 			updatedFurniture.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0];
 			updatedFurniture.cssBounds.rotate = Game.context.selectedRotation;
-			//updatedFurniture.boundingBox = updatedBoundingBox;
+		
 	 		Game.renderAll();
 	 		Game.testForWin();
 		}else{
-			Game.context.intersectsWith = intersectsWith;
+			console.log("could not place " + id);
+			console.log(intersectsWith);
 			Game.renderSelectedInfo();
 		}
 	}

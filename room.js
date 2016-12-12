@@ -10,18 +10,16 @@ Room.rooms = {
 		furniture : {
 			"#TV": { 
 				name: "TV",
-				boundingBox: [50, 50, 100, 200],
 				cssBounds: {
-					top: 150, left: 250, width:50, height:50, rotate:0
+					top: 150, left: 250, width:100, height:100, rotate:0
 				},
 				background: "url(img/shittytv.png)",
 				description: "TV is noisy"
 			},
 			"#Sofa" :{ 
 				name: "Sofa",
-				boundingBox: [50, 50, 100, 200],
 				cssBounds: {
-					top: 50, left: 50, width:140, height:70, rotate:0
+					top: 50, left: 50, width:200, height:200, rotate:0
 				},
 				background: "url(img/shittysofa.png)",
 				description: "Sofa is comfy"

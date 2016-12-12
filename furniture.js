@@ -1,31 +1,23 @@
 let Furniture = {};
 
 Furniture.intersects = function(furniture1, furniture2){
-    const f1_x = furniture1.boundingBox[0];
-    const f1_dx = furniture1.boundingBox[1];
-    const f1_y = furniture1.boundingBox[2];
-    const f1_dy = furniture1.boundingBox[3];
-    const f2_x = furniture2.boundingBox[0];
-    const f2_dx = furniture2.boundingBox[1];
-    const f2_y = furniture2.boundingBox[2];
-    const f2_dy = furniture2.boundingBox[3];
-    function is_inside(x, dx, y, dy, px, py) {
-        if (x <= px && (x + dx) >= px &&
-            y <= py && (y + dy) >= py)
-        return true;
-    }
-    // check if any of the furniture2 corners inside furniture1
-    if (is_inside(f1_x, f1_dx, f1_y, f1_dy, f2_x, f2_y) ||
-        is_inside(f1_x, f1_dx, f1_y, f1_dy, f2_x + f2_dx, f2_y) ||
-        is_inside(f1_x, f1_dx, f1_y, f1_dy, f2_x, f2_y + f2_dy) ||
-        is_inside(f1_x, f1_dx, f1_y, f1_dy, f2_x + f2_dx, f2_y + f2_dy)) return true;
+    const f1_x = furniture1.cssBounds.left;
+    const f1_radius = furniture1.cssBounds.width/2;
+    const f1_y = furniture1.cssBounds.top;
+    
+    const f2_x = furniture2.cssBounds.left;
+    const f2_radius = furniture2.cssBounds.width/2;
+    const f2_y = furniture2.cssBounds.top;
+    
+    const distance_x = f1_x - f2_x;
+    const distance_y = f1_y - f2_y;
+    const addedRadius = f1_radius + f2_radius;
 
+    const pythDistance = Math.sqrt(distance_y * distance_y + distance_x * distance_x);
 
-    if (is_inside(f2_x, f2_dx, f2_y, f2_dy, f1_x, f1_y) ||
-        is_inside(f2_x, f2_dx, f2_y, f2_dy, f1_x + f1_dx, f1_y) ||
-        is_inside(f2_x, f2_dx, f2_y, f2_dy, f1_x, f1_y + f1_dy) ||
-        is_inside(f2_x, f2_dx, f2_y, f2_dy, f1_x + f1_dx, f1_y + f1_dy)) return true;
-	return false;	
+    console.log("distance was " + pythDistance);
+
+    return pythDistance < addedRadius;
 };
 
 Furniture.flipBoundingBox = function(furniture1) {
@@ -55,7 +47,7 @@ Furniture.insideRoom = function(furniture1){
 	return false;	
 };
 
-
+/*
 $(document).ready(function() {
     f1 = {
         boundingBox: [0, 5, 0, 5]
@@ -92,3 +84,4 @@ $(document).ready(function() {
     console.log("TEST rotate: " + f1.boundingBox);
 });
 
+*/
