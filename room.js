@@ -31,6 +31,14 @@ Room.rooms = {
 				},
 				background: "url(img/bookshelf.png)",
 				description: "The bookshelf is heavy to move around."
+			},
+			"#Lamp" :{ 
+				name: "Lamp",
+				cssBounds: {
+					top: 300, left: 400, width:100, height:100, rotate:90
+				},
+				background: "url(img/lamp.png)",
+				description: "The lamp glows brightly."
 			}
 		},
 		badnesses: {
@@ -58,6 +66,15 @@ Room.rooms = {
 				if(minDistance > 50)
 					return 1;
 				else return 0;
+			},
+			'Bookshelf is facing a wall' : function(room){
+				return 0;
+			},
+			'Lamp is in a corner' : function(room){
+				return 0;
+			},
+			'Sunlight from the windows hits the tv screen' : function(room){
+				return 0;
 			}
 		},
 		wintest : function(context){
@@ -74,44 +91,51 @@ Room.rooms = {
 		windows : ["north", "east"],
 		background: "url(img/bedroom.png)",
 		furniture : {
-			"#TV": { 
-				name: "TV",
+			"#Bed": { 
+				name: "Bed",
 				cssBounds: {
-					top: 150, left: 250, width:50, height:50, rotate:0
+					top: 150, left: 250, width:200, height:200, rotate:0
 				},
-				background: "url(img/shittytv.png)",
-				description: "TV is noisy"
+				background: "url(img/bed.png)",
+				description: "The bed looks inviting and comfortable."
 			},
-			"#Sofa" :{ 
-				name: "Sofa",
+			"#Wardrobe" :{ 
+				name: "Wardrobe",
 				cssBounds: {
 					top: 50, left: 50, width:140, height:70, rotate:0
 				},
 				background: "url(img/shittysofa.png)",
-				description: "Sofa is comfy"
+				description: "The wardrobe heavy to move around."
+			},
+			"#Bedstand" :{ 
+				name: "Bedstand",
+				cssBounds: {
+					top: 50, left: 50, width:140, height:70, rotate:0
+				},
+				background: "url(img/shittysofa.png)",
+				description: "A cute little table to have next to the bed."
 			}
 		},
 		badnesses: {
-			'Room is unbalanced' : function(room){
+			'Bed is near center of room' : function(room){
 				//todo:
 				return 1.0; //number for badness
 			},	
-			'Sofa is not facing door' : function(room){
+			'Wardrobe is blocking the door' : function(room){
 				//todo:
 				return 1.0; //number for badness
 			},	
-			'Sofa is pink' : function(room){
+			'Wardrobe is blocking the window' : function(room){
+				//todo:
+				return 1.0; //number for badness
+			},	
+			'Bed far from window' : function(room){
 				//todo:
 				return 0.0; //number for badness
 			},
-			'Sofa is too close to a wall' : function(room){
+			'Bedstand is far from bed' : function(room){
 				//todo:
 				return 1.0; //number for badness
-			},
-			'Sofa is too far away from a wall' : function(room){
-				let sofa = room.furniture["#Sofa"];
-				//todo:
-				return sofa.cssBounds.top / 180; //number for badness
 			}
 		},
 		wintest : function(context){
@@ -131,41 +155,70 @@ Room.rooms = {
 			"#TV": { 
 				name: "TV",
 				cssBounds: {
-					top: 150, left: 250, width:50, height:50, rotate:0
+					top: 180, left: 100, width:100, height:100, rotate:0
 				},
 				background: "url(img/shittytv.png)",
-				description: "TV is noisy"
+				description: "The TV makes an annoying static noise."
 			},
 			"#Sofa" :{ 
 				name: "Sofa",
 				cssBounds: {
-					top: 50, left: 50, width:140, height:70, rotate:0
+					top: 290, left: 50, width:200, height:200, rotate:180
 				},
 				background: "url(img/shittysofa.png)",
-				description: "Sofa is comfy"
+				description: "This is an ugly, but comfortable sofa."
+			},
+			"#Bookshelf" :{ 
+				name: "Bookshelf",
+				cssBounds: {
+					top: 100, left: 300, width:200, height:200, rotate:90
+				},
+				background: "url(img/bookshelf.png)",
+				description: "The bookshelf is heavy to move around."
+			},
+			"#Lamp" :{ 
+				name: "Lamp",
+				cssBounds: {
+					top: 300, left: 400, width:100, height:100, rotate:90
+				},
+				background: "url(img/lamp.png)",
+				description: "The lamp glows brightly."
 			}
 		},
 		badnesses: {
-			'Room is unbalanced' : function(room){
-				//todo:
-				return 1.0; //number for badness
+			'Sofa is not facing the windows' : function(room){
+				console.log(Game.context.currentRoom.furniture["#Sofa"].facing);
+				if(Game.context.currentRoom.furniture["#Sofa"].facing == "north")
+					return 0;
+				else
+					return 1.0; //number for badness
 			},	
-			'Sofa is not facing door' : function(room){
-				//todo:
-				return 1.0; //number for badness
-			},	
-			'Sofa is pink' : function(room){
-				//todo:
-				return 0.0; //number for badness
-			},
 			'Sofa is too close to a wall' : function(room){
-				//todo:
-				return 1.0; //number for badness
+				let sofa = room.furniture["#Sofa"];
+				let distances = [sofa.distance.north, sofa.distance.south, sofa.distance.west, sofa.distance.east];
+				let minDistance = Math.min.apply(Math, distances);
+				console.log(distances);
+				if(minDistance < 10)
+					return 1;
+				else return 0;
 			},
 			'Sofa is too far away from a wall' : function(room){
 				let sofa = room.furniture["#Sofa"];
-				//todo:
-				return sofa.cssBounds.top / 180; //number for badness
+				let distances = [sofa.distance.north, sofa.distance.south, sofa.distance.west, sofa.distance.east];
+				let minDistance = Math.min.apply(Math, distances);
+				console.log(distances);
+				if(minDistance > 50)
+					return 1;
+				else return 0;
+			},
+			'Bookshelf is facing a wall' : function(room){
+				return 0;
+			},
+			'Lamp is in a corner' : function(room){
+				return 0;
+			},
+			'Sunlight from the windows hits the tv screen' : function(room){
+				return 0;
 			}
 		},
 		wintest : function(context){
@@ -173,7 +226,7 @@ Room.rooms = {
 				$(".room").css('animation-name', 'shakingless');
 			}
 			//some test for winning here
-			return context.badness > 4;
+			return context.badness <= 0;
 		}
 	},
 	"prison" : {
@@ -199,27 +252,22 @@ Room.rooms = {
 				description: "Sofa is comfy"
 			}
 		},
-		badnesses: {
-			'Room is unbalanced' : function(room){
-				//todo:
-				return 1.0; //number for badness
-			},	
+		badnesses: {	
 			'Sofa is not facing door' : function(room){
 				//todo:
 				return 1.0; //number for badness
 			},	
-			'Sofa is pink' : function(room){
+			'TV is not facing sofa' : function(room){
 				//todo:
 				return 0.0; //number for badness
 			},
-			'Sofa is too close to a wall' : function(room){
+			'Bed is too far from a wall' : function(room){
 				//todo:
 				return 1.0; //number for badness
 			},
-			'Sofa is too far away from a wall' : function(room){
-				let sofa = room.furniture["#Sofa"];
+			'Bookshelf is blocking door' : function(room){
 				//todo:
-				return sofa.cssBounds.top / 180; //number for badness
+				return 0;
 			}
 		},
 		wintest : function(context){
@@ -254,26 +302,25 @@ Room.rooms = {
 			}
 		},
 		badnesses: {
-			'Room is unbalanced' : function(room){
+			'TV is in the water' : function(room){
 				//todo:
 				return 1.0; //number for badness
 			},	
-			'Sofa is not facing door' : function(room){
-				//todo:
+			'You have been pushing furniture around all night.' : function(room){
+				//todo: (timer?)
 				return 1.0; //number for badness
 			},	
-			'Sofa is pink' : function(room){
+			'Sofa is facing away from TV' : function(room){
 				//todo:
 				return 0.0; //number for badness
 			},
-			'Sofa is too close to a wall' : function(room){
+			'Sofa is in the water' : function(room){
 				//todo:
 				return 1.0; //number for badness
 			},
-			'Sofa is too far away from a wall' : function(room){
-				let sofa = room.furniture["#Sofa"];
-				//todo:
-				return sofa.cssBounds.top / 180; //number for badness
+			'You can hear voices in your head' : function(room){
+				//todo: (something weird?)
+				return 0; //number for badness
 			}
 		},
 		wintest : function(context){
