@@ -15,9 +15,27 @@ Furniture.intersects = function(furniture1, furniture2){
 
     const pythDistance = Math.sqrt(distance_y * distance_y + distance_x * distance_x);
 
-    console.log("distance was " + pythDistance);
+   // console.log("distance was " + pythDistance);
 
     return pythDistance < addedRadius;
+};
+
+Furniture.calculateStuff = function(furniture){
+    furniture.distance = {};
+    furniture.distance.north = furniture.cssBounds.top;
+    furniture.distance.west = furniture.cssBounds.left;
+    furniture.distance.east = 500 - furniture.cssBounds.left + furniture.cssBounds.width;
+    furniture.distance.south = 500 - furniture.cssBounds.top + furniture.cssBounds.height;
+    let r = ((furniture.cssBounds.rotate % 360) + 360) % 360;
+    if(r == 0){
+        furniture.facing = "south";
+    } else if(r == 90){
+        furniture.facing = "west";
+    } if(r == 180){
+        furniture.facing = "north";
+    } if(r == 270){
+        furniture.facing = "east";
+    }
 };
 
 Furniture.flipBoundingBox = function(furniture1) {

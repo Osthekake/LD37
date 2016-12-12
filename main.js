@@ -54,6 +54,7 @@ Game.start = function(roomName){
 	console.log("loading level");
 	console.log(theLevel);
 	Game.context.currentRoom = JSON.parse(JSON.stringify(theLevel)); //only way I know to reliably make a copy
+	
 	Game.renderAll();
 	Game.showIntro();
 };
@@ -124,9 +125,7 @@ Game.placeFurniture = function(event){
  		//check if furniture can be placed here
  		let furnitureCopy = JSON.parse(JSON.stringify(Game.context.currentRoom.furniture[id]));
  		let rom = $("#roomTarget").offset();
- 		//todo: Figure all this out.
- 		
-        //if (Game.context.selectedRotation)
+
  		let intersectsWith = []; 
  		let furnitures = Game.context.currentRoom.furniture;
 		furnitureCopy.cssBounds.top = event.pageY - rom.top - Game.context.selectedCoordinates[1];
@@ -154,6 +153,7 @@ Game.placeFurniture = function(event){
 			updatedFurniture.cssBounds.top = event.pageY - rom.top - Game.context.selectedCoordinates[1];
 			updatedFurniture.cssBounds.left = event.pageX - rom.left - Game.context.selectedCoordinates[0];
 			updatedFurniture.cssBounds.rotate = Game.context.selectedRotation;
+			Furniture.calculateStuff(updatedFurniture);
 		
 	 		Game.renderAll();
 	 		Game.testForWin();
@@ -177,7 +177,12 @@ Game.testForWin = function(){
 }
 
 Game.calculateQi = function(room){
-	//todo: base these on calculations
+	for (var furnitureid in Game.context.currentRoom.furniture){
+//		console.log("calculating stuff for " + furnitureid);
+		let furniture = Game.context.currentRoom.furniture[furnitureid];
+		Furniture.calculateStuff(furniture);
+	}
+
 	var totalBadness = 0;
 	var badStuffs = [];
 	let badnesses = Room.rooms[room.id].badnesses;
