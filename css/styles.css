@@ -3,6 +3,7 @@
 	background-size: cover;
 	opacity: 1.0;
     animation-duration: 0.5s;
+    margin-bottom: 20px;
 }
 
 .furniture {
@@ -19,6 +20,11 @@ html, body, .container-table {
 body {
 	background-image: url(../img/stars.png);
 }
+
+.container{
+	width:800px;
+}
+
 .container-table {
     display: table;
 }
