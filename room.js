@@ -144,7 +144,7 @@ Room.rooms = {
 			'Bed far from window' : function(room){
                 let bed = room.furniture["#Bed"];
                 let distances = [bed.distance.north, bed.distance.east];
-                let minDistance = Math.min.apply(Math, distnaces);
+                let minDistance = Math.min.apply(Math, distances);
                 if (minDistance > 50)
                     return 1;
 				return 0; //number for badness
