@@ -38,6 +38,14 @@ Furniture.calculateStuff = function(furniture){
     }
 };
 
+Furniture.distanceBetween = function(furniture1, furniture2) {
+    const y1 = furniture1.cssBounds.top + furniture1.cssBounds.height/2;
+    const x1 = furniture1.cssBounds.left + furniture1.cssBounds.width/2;
+    const y2 = furniture1.cssBounds.top + furniture2.cssBounds.height/2;
+    const x2 = furniture1.cssBounds.left + furniture2.cssBounds.width/2;
+    return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+}
+
 Furniture.flipBoundingBox = function(furniture1) {
     const x = furniture1.boundingBox[0];
     const dx = furniture1.boundingBox[1];

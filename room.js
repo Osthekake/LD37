@@ -118,24 +118,44 @@ Room.rooms = {
 		},
 		badnesses: {
 			'Bed is near center of room' : function(room){
-				//todo:
-				return 1.0; //number for badness
+                let bed = room.furniture["#Bed"];
+                let distances = [bed.distance.north, bed.distance.south, bed.distance.west, bed.distance.east];
+                let minDistance = Math.min.apply(Math, distances);
+                if (minDistance > 50)
+                    return 1;
+				return 0; //number for badness
 			},	
 			'Wardrobe is blocking the door' : function(room){
-				//todo:
-				return 1.0; //number for badness
+                let wardrobe = room.furniture["#Wardrobe"];
+                let distances = [wardrobe.distance.west];
+                let minDistance = Math.min.apply(Math, distances);
+                if (minDistance < 10)
+                    return 1;
+				return 0; //number for badness
 			},	
 			'Wardrobe is blocking the window' : function(room){
-				//todo:
-				return 1.0; //number for badness
+                let wardrobe = room.furniture["#Wardrobe"];
+                let distances = [wardrobe.distance.north, wardrobe.distance.east];
+                let minDistance = Math.min.apply(Math, distances);
+                if (minDistance < 10)
+                    return 1;
+				return 0; //number for badness
 			},	
 			'Bed far from window' : function(room){
-				//todo:
-				return 0.0; //number for badness
+                let bed = room.furniture["#Bed"];
+                let distances = [bed.distance.north, bed.distance.east];
+                let minDistance = Math.min.apply(Math, distnaces);
+                if (minDistance > 50)
+                    return 1;
+				return 0; //number for badness
 			},
 			'Bedstand is far from bed' : function(room){
-				//todo:
-				return 1.0; //number for badness
+                let bedstand = room.furniture["#Bedstand"];
+                let bed = room.furniture["#Bed"];
+                let distance = Furniture.distanceBetween(bedstand, bed);
+                if (distance > 100)
+    				return 1.0; //number for badness
+                return 0;
 			}
 		},
 		wintest : function(context){
