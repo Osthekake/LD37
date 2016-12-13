@@ -1,7 +1,31 @@
 let Furniture = {};
 
 Furniture.intersects = function(furniture1, furniture2){
-    
+    const f1_radius = furniture1.cssBounds.width/2;
+    const f2_radius = furniture2.cssBounds.width/2;
+    const addedRadius = f1_radius + f2_radius;
+    return Furniture.distanceBetween(furniture1, furniture2) < (addedRadius * 0.9);
+};
+
+Furniture.calculateStuff = function(furniture){
+    furniture.distance = {};
+    furniture.distance.north = furniture.cssBounds.top;
+    furniture.distance.west = furniture.cssBounds.left;
+    furniture.distance.east = 500 - furniture.cssBounds.left - furniture.cssBounds.width;
+    furniture.distance.south = 500 - furniture.cssBounds.top - furniture.cssBounds.height;
+    let r = ((furniture.cssBounds.rotate % 360) + 360) % 360;
+    if(r == 0){
+        furniture.facing = "south";
+    } else if(r == 90){
+        furniture.facing = "west";
+    } if(r == 180){
+        furniture.facing = "north";
+    } if(r == 270){
+        furniture.facing = "east";
+    }
+};
+
+Furniture.distanceBetween = function(furniture1, furniture2) {
     const f1_radius = furniture1.cssBounds.width/2;
     const f1_x = furniture1.cssBounds.left + f1_radius;
     const f1_y = furniture1.cssBounds.top + f1_radius;
@@ -17,35 +41,7 @@ Furniture.intersects = function(furniture1, furniture2){
 
     const pythDistance = Math.sqrt(distance_y * distance_y + distance_x * distance_x);
 
-   // console.log("distance was " + pythDistance);
-
-    return pythDistance < (addedRadius * 0.9);
-};
-
-Furniture.calculateStuff = function(furniture){
-    furniture.distance = {};
-    furniture.distance.north = furniture.cssBounds.top;
-    furniture.distance.west = furniture.cssBounds.left;
-    furniture.distance.east = 500 - furniture.cssBounds.left + furniture.cssBounds.width;
-    furniture.distance.south = 500 - furniture.cssBounds.top + furniture.cssBounds.height;
-    let r = ((furniture.cssBounds.rotate % 360) + 360) % 360;
-    if(r == 0){
-        furniture.facing = "south";
-    } else if(r == 90){
-        furniture.facing = "west";
-    } if(r == 180){
-        furniture.facing = "north";
-    } if(r == 270){
-        furniture.facing = "east";
-    }
-};
-
-Furniture.distanceBetween = function(furniture1, furniture2) {
-    const y1 = furniture1.cssBounds.top + furniture1.cssBounds.height/2;
-    const x1 = furniture1.cssBounds.left + furniture1.cssBounds.width/2;
-    const y2 = furniture1.cssBounds.top + furniture2.cssBounds.height/2;
-    const x2 = furniture1.cssBounds.left + furniture2.cssBounds.width/2;
-    return Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+    return pythDistance;
 }
 
 Furniture.flipBoundingBox = function(furniture1) {

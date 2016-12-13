@@ -8,7 +8,8 @@ Game.context = {
 	badness: 0, //current level of badness
 	selectedFurniture: undefined, //currently clicked furniture id
     selectedCoordinates: [0, 0],
-    selectedRotation: 0
+    selectedRotation: 0,
+    energyVector: undefined
 };
 
 Game.renderTo = function(template_id, output){
