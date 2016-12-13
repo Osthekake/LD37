@@ -135,6 +135,7 @@ Game.placeFurniture = function(event){
  			let f = furnitures[furnId];
  			if(furnId != id && Furniture.intersects(furnitureCopy, f)){
  				intersectsWith.push(furnId);
+ 				$(furnId).addClass("intheway");
  			}
  		}
  		Game.context.intersectsWith = intersectsWith;
@@ -160,6 +161,7 @@ Game.placeFurniture = function(event){
 		}else{
 			console.log("could not place " + id);
 			console.log(intersectsWith);
+			el.addClass("intheway");
 			Game.renderSelectedInfo();
 		}
 	}

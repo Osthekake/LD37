@@ -4,8 +4,6 @@ let Room = {};
 Room.rooms = {
 	"livingroom" : {
 		id: "livingroom",
-		doors : ["west"],
-		windows : ["north"],
 		background: "url(img/livingroom.png)",
 		furniture : {
 			"#TV": { 
@@ -87,8 +85,6 @@ Room.rooms = {
 	},
 	"bedroom" : {
 		id: "bedroom",
-		doors : ["west"],
-		windows : ["north", "east"],
 		background: "url(img/bedroom.png)",
 		energyThreshold: 3,
 		furniture : {
@@ -169,8 +165,6 @@ Room.rooms = {
 	},
 	"cozy" : {
 		id: "cozy",
-		doors : ["west"],
-		windows : ["north", "east"],
 		background: "url(img/livingroom.png)",
 		energyThreshold: 2,
 		furniture : {
@@ -255,8 +249,6 @@ Room.rooms = {
 	},
 	"prison" : {
 		id: "prison",
-		doors : ["west"],
-		windows : ["north", "east"],
 		background: "url(img/prisoncell.png)",
 		furniture : {
 			"#TV": { 
@@ -304,8 +296,6 @@ Room.rooms = {
 	},
 	"beach" : {
 		id: "beach",
-		doors : ["west"],
-		windows : ["north", "east"],
 		background: "url(img/beach.png)",
 		furniture : {
 			"#TV": { 

@@ -17,6 +17,11 @@ html, body, .container-table {
     height: 100%;
 }
 
+.intheway {
+	border: 2px solid red;
+	border-radius: 20px;
+}
+
 body {
 	background-image: url(../img/stars.png);
 }
